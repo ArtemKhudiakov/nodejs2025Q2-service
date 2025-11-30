@@ -8,7 +8,7 @@
 ## Downloading
 
 ```
-git clone git@github.com:ArtemKhudiakov/nodejs2025Q2-service.git --branch=dev
+git clone git@github.com:ArtemKhudiakov/nodejs2025Q2-service.git --branch=dev2
 cd nodejs2025Q2-service
 ```
 
