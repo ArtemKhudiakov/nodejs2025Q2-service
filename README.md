@@ -21,6 +21,10 @@ npm install
 ## Running application
 
 ```
+Clone information from .env.example to .env
+
+
+
 npm start
 ```
 
