@@ -1,12 +1,16 @@
+import { Artist } from '../../artist/entities/artist.entity';
+import { Album } from '../../album/entities/album.entity';
+import { Track } from '../../track/entities/track.entity';
+
 export interface Favorites {
-  artists: string[]; // favorite artists ids
-  albums: string[]; // favorite albums ids
-  tracks: string[]; // favorite tracks ids
+  artists: string[];
+  albums: string[];
+  tracks: string[];
 }
 
 export interface FavoritesResponse {
-  artists: any[]; // Artist[]
-  albums: any[]; // Album[]
-  tracks: any[]; // Track[]
+  artists: Artist[];
+  albums: Album[];
+  tracks: Track[];
 }
 
