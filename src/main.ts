@@ -20,7 +20,6 @@ async function bootstrap() {
     }),
   );
 
-  // Загрузка OpenAPI спецификации из YAML
   const yamlFilePath = path.join(process.cwd(), 'doc', 'api.yaml');
   const yamlContent = fs.readFileSync(yamlFilePath, 'utf8');
   const swaggerDocument = yaml.load(yamlContent) as any;
