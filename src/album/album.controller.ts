@@ -48,11 +48,11 @@ export class AlbumController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid album ID');
     }
-    this.albumService.remove(id);
+    await this.albumService.remove(id);
   }
 }
 

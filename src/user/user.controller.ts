@@ -48,11 +48,11 @@ export class UserController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid user ID');
     }
-    this.userService.remove(id);
+    await this.userService.remove(id);
   }
 }
 

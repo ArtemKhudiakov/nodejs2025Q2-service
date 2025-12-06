@@ -48,11 +48,11 @@ export class ArtistController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid artist ID');
     }
-    this.artistService.remove(id);
+    await this.artistService.remove(id);
   }
 }
 

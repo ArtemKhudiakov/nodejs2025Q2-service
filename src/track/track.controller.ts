@@ -48,11 +48,11 @@ export class TrackController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid track ID');
     }
-    this.trackService.remove(id);
+    await this.trackService.remove(id);
   }
 }
 

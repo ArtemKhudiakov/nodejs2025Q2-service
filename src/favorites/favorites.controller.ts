@@ -24,12 +24,12 @@ export class FavoritesController {
 
   @Post('artist/:id')
   @HttpCode(HttpStatus.CREATED)
-  addArtist(@Param('id') id: string) {
+  async addArtist(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid artist ID');
     }
     try {
-      this.favoritesService.addArtist(id);
+      await this.favoritesService.addArtist(id);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw new UnprocessableEntityException('Artist with id does not exist');
@@ -40,21 +40,21 @@ export class FavoritesController {
 
   @Delete('artist/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeArtist(@Param('id') id: string) {
+  async removeArtist(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid artist ID');
     }
-    this.favoritesService.removeArtist(id);
+    await this.favoritesService.removeArtist(id);
   }
 
   @Post('album/:id')
   @HttpCode(HttpStatus.CREATED)
-  addAlbum(@Param('id') id: string) {
+  async addAlbum(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid album ID');
     }
     try {
-      this.favoritesService.addAlbum(id);
+      await this.favoritesService.addAlbum(id);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw new UnprocessableEntityException('Album with id does not exist');
@@ -65,21 +65,21 @@ export class FavoritesController {
 
   @Delete('album/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeAlbum(@Param('id') id: string) {
+  async removeAlbum(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid album ID');
     }
-    this.favoritesService.removeAlbum(id);
+    await this.favoritesService.removeAlbum(id);
   }
 
   @Post('track/:id')
   @HttpCode(HttpStatus.CREATED)
-  addTrack(@Param('id') id: string) {
+  async addTrack(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid track ID');
     }
     try {
-      this.favoritesService.addTrack(id);
+      await this.favoritesService.addTrack(id);
     } catch (error) {
       if (error instanceof NotFoundException) {
         throw new UnprocessableEntityException('Track with id does not exist');
@@ -90,11 +90,11 @@ export class FavoritesController {
 
   @Delete('track/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  removeTrack(@Param('id') id: string) {
+  async removeTrack(@Param('id') id: string) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid track ID');
     }
-    this.favoritesService.removeTrack(id);
+    await this.favoritesService.removeTrack(id);
   }
 }
 

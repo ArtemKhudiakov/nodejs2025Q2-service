@@ -1,83 +1,71 @@
-import { Injectable, NotFoundException, Inject, forwardRef } from '@nestjs/common';
-import { v4 as randomUUID } from 'uuid';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { Track } from './entities/track.entity';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { FavoritesService } from '../favorites/favorites.service';
 
 @Injectable()
 export class TrackService {
-  private tracks: Track[] = [];
+  constructor(private readonly prisma: PrismaService) {}
 
-  constructor(
-    @Inject(forwardRef(() => FavoritesService))
-    private readonly favoritesService: FavoritesService,
-  ) { }
-
-  findAll(): Track[] {
-    return this.tracks;
+  async findAll(): Promise<Track[]> {
+    return this.prisma.track.findMany();
   }
 
-  findOne(id: string): Track {
-    const track = this.tracks.find((t) => t.id === id);
-    if (!track) {
-      throw new NotFoundException('Track not found');
-    }
-    return track;
-  }
+  async findOne(id: string): Promise<Track> {
+    const track = await this.prisma.track.findUnique({
+      where: { id },
+    });
 
-  create(createTrackDto: CreateTrackDto): Track {
-    const newTrack: Track = {
-      id: randomUUID(),
-      name: createTrackDto.name,
-      duration: createTrackDto.duration,
-      artistId: createTrackDto.artistId || null,
-      albumId: createTrackDto.albumId || null,
-    };
-
-    this.tracks.push(newTrack);
-    return newTrack;
-  }
-
-  update(id: string, updateTrackDto: UpdateTrackDto): Track {
-    const track = this.tracks.find((t) => t.id === id);
     if (!track) {
       throw new NotFoundException('Track not found');
     }
 
-    track.name = updateTrackDto.name;
-    track.duration = updateTrackDto.duration;
-    track.artistId = updateTrackDto.artistId || null;
-    track.albumId = updateTrackDto.albumId || null;
-
     return track;
   }
 
-  remove(id: string): void {
-    const index = this.tracks.findIndex((t) => t.id === id);
-    if (index === -1) {
-      throw new NotFoundException('Track not found');
-    }
-
-    // Удаляем из favorites
-    this.favoritesService.removeTrackFromFavorites(id);
-
-    this.tracks.splice(index, 1);
-  }
-
-  removeArtistReference(artistId: string): void {
-    this.tracks.forEach((track) => {
-      if (track.artistId === artistId) {
-        track.artistId = null;
-      }
+  async create(createTrackDto: CreateTrackDto): Promise<Track> {
+    return this.prisma.track.create({
+      data: {
+        name: createTrackDto.name,
+        duration: createTrackDto.duration,
+        artistId: createTrackDto.artistId || null,
+        albumId: createTrackDto.albumId || null,
+      },
     });
   }
 
-  removeAlbumReference(albumId: string): void {
-    this.tracks.forEach((track) => {
-      if (track.albumId === albumId) {
-        track.albumId = null;
-      }
+  async update(id: string, updateTrackDto: UpdateTrackDto): Promise<Track> {
+    const track = await this.prisma.track.findUnique({
+      where: { id },
+    });
+
+    if (!track) {
+      throw new NotFoundException('Track not found');
+    }
+
+    return this.prisma.track.update({
+      where: { id },
+      data: {
+        name: updateTrackDto.name,
+        duration: updateTrackDto.duration,
+        artistId: updateTrackDto.artistId || null,
+        albumId: updateTrackDto.albumId || null,
+      },
+    });
+  }
+
+  async remove(id: string): Promise<void> {
+    const track = await this.prisma.track.findUnique({
+      where: { id },
+    });
+
+    if (!track) {
+      throw new NotFoundException('Track not found');
+    }
+
+    await this.prisma.track.delete({
+      where: { id },
     });
   }
 }
