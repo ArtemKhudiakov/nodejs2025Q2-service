@@ -10,11 +10,12 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(): Promise<Omit<User, 'password'>[]> {
     const users = await this.prisma.user.findMany();
-    return users.map(({ password, ...user }) => ({
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return users.map(({ password: _password, ...user }) => ({
       ...user,
       createdAt: user.createdAt.getTime(),
       updatedAt: user.updatedAt.getTime(),
@@ -30,7 +31,8 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    const { password, ...userWithoutPassword } = user;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password, ...userWithoutPassword } = user;
     return {
       ...userWithoutPassword,
       createdAt: user.createdAt.getTime(),
@@ -46,7 +48,8 @@ export class UserService {
       },
     });
 
-    const { password, ...userWithoutPassword } = newUser;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password, ...userWithoutPassword } = newUser;
     return {
       ...userWithoutPassword,
       createdAt: userWithoutPassword.createdAt.getTime(),
@@ -80,7 +83,8 @@ export class UserService {
       },
     });
 
-    const { password, ...userWithoutPassword } = updatedUser;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password: _password, ...userWithoutPassword } = updatedUser;
     return {
       ...userWithoutPassword,
       createdAt: userWithoutPassword.createdAt.getTime(),
