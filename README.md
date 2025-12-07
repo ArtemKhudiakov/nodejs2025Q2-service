@@ -4,7 +4,7 @@
 
 - Git - [Download & Install Git](https://git-scm.com/downloads).
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
-- Docker and Docker Compose - [Download & Install Docker](https://www.docker.com/get-started).
+- Docker and Docker Compose - [Download & Install Docker Desktop](https://www.docker.com/get-started).
 
 ## Downloading
 
@@ -22,7 +22,7 @@ cd nodejs2025Q2-service
 cp .env.example .env
 ```
 
-2. Build and start containers:
+2. Start Docker Desktop, build and start containers:
 ```bash
 docker-compose up -d --build
 ```
