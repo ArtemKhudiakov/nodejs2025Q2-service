@@ -1,4 +1,11 @@
-import { IsString, IsNotEmpty, IsInt, IsOptional, IsUUID, ValidateIf } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsInt,
+  IsOptional,
+  IsUUID,
+  ValidateIf,
+} from 'class-validator';
 
 export class UpdateAlbumDto {
   @IsString()
@@ -13,4 +20,3 @@ export class UpdateAlbumDto {
   @IsUUID()
   artistId!: string | null;
 }
-

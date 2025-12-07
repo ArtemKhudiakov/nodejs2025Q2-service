@@ -7,5 +7,4 @@ import { AlbumService } from './album.service';
   providers: [AlbumService],
   exports: [AlbumService],
 })
-export class AlbumModule { }
-
+export class AlbumModule {}

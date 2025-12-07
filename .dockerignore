@@ -15,4 +15,13 @@ coverage
 *.swp
 *.swo
 *~
+test
+*.md
+.gitignore
+.eslintrc.js
+.prettierrc
+tsconfig.json
+jest.config.json
+docker-compose*.yml
+Dockerfile.dev
 

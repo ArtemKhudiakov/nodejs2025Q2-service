@@ -15,4 +15,3 @@ declare const swaggerUi: {
 };
 
 export = swaggerUi;
-

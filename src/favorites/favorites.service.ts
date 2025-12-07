@@ -1,4 +1,7 @@
-import { Injectable, UnprocessableEntityException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { FavoritesResponse } from './entities/favorites.entity';
 import { ArtistService } from '../artist/artist.service';
@@ -14,7 +17,7 @@ export class FavoritesService {
     private readonly artistService: ArtistService,
     private readonly albumService: AlbumService,
     private readonly trackService: TrackService,
-  ) { }
+  ) {}
 
   async findAll(): Promise<FavoritesResponse> {
     const favorites = await this.prisma.favorite.findMany({
@@ -179,4 +182,3 @@ export class FavoritesService {
     });
   }
 }
-

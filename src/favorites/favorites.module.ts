@@ -11,5 +11,4 @@ import { TrackModule } from '../track/track.module';
   providers: [FavoritesService],
   exports: [FavoritesService],
 })
-export class FavoritesModule { }
-
+export class FavoritesModule {}

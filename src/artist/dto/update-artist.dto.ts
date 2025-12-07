@@ -8,4 +8,3 @@ export class UpdateArtistDto {
   @IsBoolean()
   grammy!: boolean;
 }
-

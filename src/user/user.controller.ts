@@ -17,7 +17,7 @@ import { isValidUUID } from '../common/utils';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Get()
   findAll() {
@@ -39,7 +39,10 @@ export class UserController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updatePasswordDto: UpdatePasswordDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePasswordDto: UpdatePasswordDto,
+  ) {
     if (!isValidUUID(id)) {
       throw new BadRequestException('Invalid user ID');
     }
@@ -55,4 +58,3 @@ export class UserController {
     await this.userService.remove(id);
   }
 }
-

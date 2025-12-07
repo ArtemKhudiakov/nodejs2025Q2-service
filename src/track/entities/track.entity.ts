@@ -5,4 +5,3 @@ export interface Track {
   albumId: string | null;
   duration: number;
 }
-

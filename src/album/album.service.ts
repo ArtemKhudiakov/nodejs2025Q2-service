@@ -6,7 +6,7 @@ import { UpdateAlbumDto } from './dto/update-album.dto';
 
 @Injectable()
 export class AlbumService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<Album[]> {
     return this.prisma.album.findMany();
@@ -67,4 +67,3 @@ export class AlbumService {
     });
   }
 }
-

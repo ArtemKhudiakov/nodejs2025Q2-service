@@ -6,7 +6,7 @@ import { UpdateTrackDto } from './dto/update-track.dto';
 
 @Injectable()
 export class TrackService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<Track[]> {
     return this.prisma.track.findMany();
@@ -69,4 +69,3 @@ export class TrackService {
     });
   }
 }
-

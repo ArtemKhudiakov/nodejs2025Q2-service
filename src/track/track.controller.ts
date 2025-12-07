@@ -17,7 +17,7 @@ import { isValidUUID } from '../common/utils';
 
 @Controller('track')
 export class TrackController {
-  constructor(private readonly trackService: TrackService) { }
+  constructor(private readonly trackService: TrackService) {}
 
   @Get()
   findAll() {
@@ -55,4 +55,3 @@ export class TrackController {
     await this.trackService.remove(id);
   }
 }
-
