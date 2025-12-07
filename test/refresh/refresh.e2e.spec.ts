@@ -7,7 +7,9 @@ import {
   generateRefreshToken,
 } from '../utils';
 import { HttpStatus } from '@nestjs/common';
-import { decode, JwtPayload } from 'jsonwebtoken';
+import type { JwtPayload } from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
+const { decode } = jwt;
 import { validate } from 'uuid';
 
 type UserTokens = {

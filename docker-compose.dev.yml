@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./src:/app/src
+      - /app/node_modules
+      - /app/dist
+    command: npm run start:dev
+    environment:
+      NODE_ENV: development
+
