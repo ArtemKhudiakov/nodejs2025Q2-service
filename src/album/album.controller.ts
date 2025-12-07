@@ -17,7 +17,7 @@ import { isValidUUID } from '../common/utils';
 
 @Controller('album')
 export class AlbumController {
-  constructor(private readonly albumService: AlbumService) {}
+  constructor(private readonly albumService: AlbumService) { }
 
   @Get()
   findAll() {

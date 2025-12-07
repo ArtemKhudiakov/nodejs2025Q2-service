@@ -2,8 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client"
-  output   = "../node_modules/.prisma/client"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -22,22 +21,22 @@ model User {
 }
 
 model Artist {
-  id      String  @id @default(uuid())
-  name    String
-  grammy  Boolean @default(false)
-  albums  Album[]
-  tracks  Track[]
+  id        String     @id @default(uuid())
+  name      String
+  grammy    Boolean    @default(false)
+  albums    Album[]
+  tracks    Track[]
   favorites Favorite[]
 
   @@map("artists")
 }
 
 model Album {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
   year      Int
   artistId  String?
-  artist    Artist?  @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  artist    Artist?    @relation(fields: [artistId], references: [id], onDelete: SetNull)
   tracks    Track[]
   favorites Favorite[]
 
@@ -45,12 +44,12 @@ model Album {
 }
 
 model Track {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
   artistId  String?
-  artist    Artist?  @relation(fields: [artistId], references: [id], onDelete: SetNull)
+  artist    Artist?    @relation(fields: [artistId], references: [id], onDelete: SetNull)
   albumId   String?
-  album     Album?   @relation(fields: [albumId], references: [id], onDelete: SetNull)
+  album     Album?     @relation(fields: [albumId], references: [id], onDelete: SetNull)
   duration  Int
   favorites Favorite[]
 

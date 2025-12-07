@@ -14,7 +14,7 @@ export class FavoritesService {
     private readonly artistService: ArtistService,
     private readonly albumService: AlbumService,
     private readonly trackService: TrackService,
-  ) {}
+  ) { }
 
   async findAll(): Promise<FavoritesResponse> {
     const favorites = await this.prisma.favorite.findMany({

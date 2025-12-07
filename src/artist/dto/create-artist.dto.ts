@@ -3,9 +3,9 @@ import { IsString, IsNotEmpty, IsBoolean } from 'class-validator';
 export class CreateArtistDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsBoolean()
-  grammy: boolean;
+  grammy!: boolean;
 }
 

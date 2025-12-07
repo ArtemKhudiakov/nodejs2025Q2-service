@@ -3,14 +3,14 @@ import { IsString, IsNotEmpty, IsInt, IsOptional, IsUUID, ValidateIf } from 'cla
 export class UpdateAlbumDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsInt()
-  year: number;
+  year!: number;
 
   @IsOptional()
   @ValidateIf((o) => o.artistId !== null)
   @IsUUID()
-  artistId: string | null;
+  artistId!: string | null;
 }
 

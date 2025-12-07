@@ -17,7 +17,7 @@ import { isValidUUID } from '../common/utils';
 
 @Controller('artist')
 export class ArtistController {
-  constructor(private readonly artistService: ArtistService) {}
+  constructor(private readonly artistService: ArtistService) { }
 
   @Get()
   findAll() {

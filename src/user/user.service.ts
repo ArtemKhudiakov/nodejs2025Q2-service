@@ -6,7 +6,7 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findAll(): Promise<Omit<User, 'password'>[]> {
     const users = await this.prisma.user.findMany();
