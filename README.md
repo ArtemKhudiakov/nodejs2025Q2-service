@@ -106,6 +106,7 @@ The project uses Prisma migrations to manage database schema. Migrations are loc
 - To run migrations manually: `npx prisma migrate deploy`
 - To create a new migration: `npx prisma migrate dev --name migration_name`
 
+
 ## Database Relations
 
 The project uses Prisma relations defined in `prisma/schema.prisma`:
