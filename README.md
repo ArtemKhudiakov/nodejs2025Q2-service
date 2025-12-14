@@ -31,6 +31,41 @@ docker-compose up -d --build
 
 4. Open OpenAPI documentation: http://localhost:4000/doc/
 
+### Troubleshooting
+
+#### PostgreSQL Version Incompatibility Error
+
+Если вы видите ошибку:
+```
+FATAL: database files are incompatible with server
+The data directory was initialized by PostgreSQL version 15, which is not compatible with this version 16.11.
+```
+
+**Причина:** Эта ошибка возникает, если:
+- Вы ранее запускали другие проекты с PostgreSQL 15, и Docker volumes остались с данными от старой версии
+- Вы обновили версию PostgreSQL в `docker-compose.yml` с 15 на 16
+- Docker пытается использовать существующий volume с данными от несовместимой версии
+
+**Решение:** Удалите старые volumes и пересоздайте контейнеры:
+
+```bash
+# Остановить и удалить контейнеры и volumes текущего проекта
+docker-compose down -v
+
+# Если проблема сохраняется, проверьте все volumes PostgreSQL
+docker volume ls | grep postgres
+
+# Удалите конкретный volume (замените имя на ваше)
+docker volume rm <volume_name>
+
+# Пересоздайте контейнеры
+docker-compose up -d --build
+```
+
+Флаг `-v` удаляет все volumes проекта, включая данные базы данных. После этого база данных будет инициализирована заново с правильной версией PostgreSQL.
+
+**Внимание:** Это удалит все данные из базы данных. Если у вас есть важные данные, сделайте резервную копию перед выполнением команды.
+
 ### Development Mode (with hot reload)
 
 For development with automatic restart on code changes:
