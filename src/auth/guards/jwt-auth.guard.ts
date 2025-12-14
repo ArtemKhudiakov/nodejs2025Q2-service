@@ -30,12 +30,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     if (err || !user) {
       throw (
         err ||
-        new UnauthorizedException(
-          info?.message || 'Authentication required',
-        )
+        new UnauthorizedException(info?.message || 'Authentication required')
       );
     }
     return user;
   }
 }
-

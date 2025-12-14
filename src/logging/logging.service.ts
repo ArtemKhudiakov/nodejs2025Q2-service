@@ -87,12 +87,9 @@ export class LoggingService {
     const contextStr = context ? `[${context}]` : '';
     const logMessage = `[${timestamp}] [${level.toUpperCase()}] ${contextStr} ${message}`;
 
-    // Запись в консоль
     console.log(logMessage);
 
-    // Запись в файл
     if (level === 'error' || level === 'fatal') {
-      // Ошибки уже записываются в error.log через метод error/fatal
       this.writeToFile(this.appLogFile, message, level, context);
     } else {
       this.writeToFile(this.appLogFile, message, level, context);
@@ -148,4 +145,3 @@ export class LoggingService {
     }
   }
 }
-

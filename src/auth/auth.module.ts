@@ -15,7 +15,8 @@ import { PrismaModule } from '../prisma/prisma.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => {
         const secret = configService.get<string>('JWT_ACCESS_SECRET');
-        const expiresIn = configService.get<string>('JWT_ACCESS_EXPIRATION') || '10m';
+        const expiresIn =
+          configService.get<string>('JWT_ACCESS_EXPIRATION') || '10m';
 
         if (!secret) {
           throw new Error('JWT_ACCESS_SECRET is not defined');
@@ -36,4 +37,3 @@ import { PrismaModule } from '../prisma/prisma.module';
   exports: [AuthService],
 })
 export class AuthModule {}
-
