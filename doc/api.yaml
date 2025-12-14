@@ -109,9 +109,45 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Track'
+    SignupRequest:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          example: 'TestUser'
+        password:
+          type: string
+          format: password
+          example: 'TestPassword123'
+    LoginRequest:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          example: 'TestUser'
+        password:
+          type: string
+          format: password
+          example: 'TestPassword123'
+    LoginResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
   responses:
     UnauthorizedError:
       description: Access token is missing or invalid
+    BadRequestError:
+      description: Invalid request data
+    ForbiddenError:
+      description: Authentication failed
   securitySchemes:
     bearerAuth:
       type: http
@@ -122,6 +158,52 @@ security:
   - bearerAuth: []
 
 paths:
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: Sign up a new user
+      description: Creates a new user account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        201:
+          description: User successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login user
+      description: Authenticates user and returns access token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: Successful authentication
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        400:
+          $ref: '#/components/responses/BadRequestError'
+        403:
+          $ref: '#/components/responses/ForbiddenError'
   /user:
     get:
       tags:
