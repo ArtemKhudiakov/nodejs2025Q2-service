@@ -24,7 +24,7 @@ COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/prisma.config.ts ./prisma.config.ts
 COPY --from=build /app/doc ./doc
 
-RUN chown -R nestjs:nodejs /app
+RUN mkdir -p /app/logs && chown -R nestjs:nodejs /app
 USER nestjs
 
 EXPOSE 4000

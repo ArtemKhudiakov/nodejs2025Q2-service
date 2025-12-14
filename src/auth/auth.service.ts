@@ -79,13 +79,7 @@ export class AuthService {
 
   async generateAccessToken(userId: string, login: string): Promise<string> {
     const payload = { userId, login };
-    const secret = this.configService.get<string>('JWT_ACCESS_SECRET');
-    const expiresIn = this.configService.get<string>('JWT_ACCESS_EXPIRATION');
-
-    return this.jwtService.signAsync(payload, {
-      secret,
-      expiresIn,
-    });
+    return this.jwtService.signAsync(payload);
   }
 
   async validateUser(userId: string, login: string) {

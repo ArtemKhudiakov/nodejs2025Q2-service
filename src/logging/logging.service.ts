@@ -21,6 +21,8 @@ export class LoggingService {
   private readonly maxLogFileSizeBytes: number;
   private readonly currentLogLevel: number;
 
+  private canWriteToFiles = true;
+
   constructor(private readonly configService: ConfigService) {
     const maxFileSizeKb =
       this.configService.get<number>('MAX_LOG_FILE_SIZE_KB') || 10240;
@@ -29,8 +31,20 @@ export class LoggingService {
     const logLevel = this.configService.get<LogLevel>('LOG_LEVEL') || 'log';
     this.currentLogLevel = this.logLevels[logLevel] ?? 2;
 
-    if (!fs.existsSync(this.logDir)) {
-      fs.mkdirSync(this.logDir, { recursive: true });
+    this.ensureLogDirectory();
+  }
+
+  private ensureLogDirectory() {
+    try {
+      if (!fs.existsSync(this.logDir)) {
+        fs.mkdirSync(this.logDir, { recursive: true, mode: 0o755 });
+      }
+    } catch (err: any) {
+      this.canWriteToFiles = false;
+      const message = err?.message || String(err);
+      console.warn(
+        `Cannot create log directory ${this.logDir}: ${message}. Logging to console only.`,
+      );
     }
   }
 
@@ -91,6 +105,10 @@ export class LoggingService {
     level: LogLevel,
     context?: string,
   ) {
+    if (!this.canWriteToFiles) {
+      return;
+    }
+
     try {
       this.rotateLogIfNeeded(filePath);
 
@@ -99,8 +117,13 @@ export class LoggingService {
       const logMessage = `[${timestamp}] [${level.toUpperCase()}] ${contextStr} ${message}\n`;
 
       fs.appendFileSync(filePath, logMessage, 'utf8');
-    } catch (err) {
-      console.error('Failed to write log to file:', err);
+    } catch (err: any) {
+      if (err.code === 'EACCES' || err.code === 'EPERM') {
+        this.canWriteToFiles = false;
+        console.warn(
+          `Cannot write to log file ${filePath}: permission denied. Logging to console only.`,
+        );
+      }
     }
   }
 
