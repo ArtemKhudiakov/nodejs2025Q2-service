@@ -7,10 +7,11 @@ import { PrismaService } from '../prisma/prisma.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
 
   async findAll(): Promise<Omit<User, 'password'>[]> {
     const users = await this.prisma.user.findMany();
@@ -41,10 +42,13 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<Omit<User, 'password'>> {
+    // Хеширование пароля
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+
     const newUser = await this.prisma.user.create({
       data: {
         login: createUserDto.login,
-        password: createUserDto.password,
+        password: hashedPassword,
       },
     });
 
@@ -69,14 +73,26 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    if (user.password !== updatePasswordDto.oldPassword) {
+    // Проверка старого пароля
+    const isOldPasswordValid = await bcrypt.compare(
+      updatePasswordDto.oldPassword,
+      user.password,
+    );
+
+    if (!isOldPasswordValid) {
       throw new ForbiddenException('Old password is wrong');
     }
+
+    // Хеширование нового пароля
+    const hashedNewPassword = await bcrypt.hash(
+      updatePasswordDto.newPassword,
+      10,
+    );
 
     const updatedUser = await this.prisma.user.update({
       where: { id },
       data: {
-        password: updatePasswordDto.newPassword,
+        password: hashedNewPassword,
         version: {
           increment: 1,
         },
